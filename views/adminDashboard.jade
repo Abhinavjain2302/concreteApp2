@@ -1,0 +1,54 @@
+html
+  head
+    title
+      | ConcreteApp Admin
+    // Latest compiled and minified CSS
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+  body
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='#') ConcreteApp
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href='#')
+              span.glyphicon.glyphicon-user
+              | LogOut
+    .col-md-10.col-md-offset-1
+      .panel-group
+        .panel.panel-primary
+          .panel-heading Users Waiting to get Approved
+        table.table.table-bordered.table-striped
+          thead
+            tr
+              th Name
+              th Contact Details
+              th Pan Number
+              th GstIn
+              th
+          tbody
+            each user, i in profiles
+              tr
+                td #{user.name}
+                td
+                  p #{user.contact}
+                  p #{user.email}
+                td #{user.pan}
+                td #{user.gstin}
+                td
+                  a.btn.btn-success.verifyUser(href="" data-id="#{user._id}") Verify User
+  script.
+    $(document).ready(function(){
+    $('.verifyUser').click(function(e){
+      deleteId = $(this).data('id');
+      $.ajax({
+          url: '/api/admin/verifyuser/'+deleteId,
+          type:'GET',
+          success:function(){
+
+          }
+      });
+      window.location = '/api/admin'
+    });
+    });
