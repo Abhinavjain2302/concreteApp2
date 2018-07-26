@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="eu" >
 
 <head>
   <meta charset="UTF-8">
   <title>Start Bootstrap Admin Panel</title>
- <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
-<link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<!-- <link href="css/bootstrap.css" type="text/css" rel="stylesheet"> -->
+<link href="../css/bootstrap.css" type="text/css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="css/style.css" type="text/css" rel="stylesheet">
-    <link href="css/sb-admin.css" type="text/css" rel="stylesheet">
+    <link href="../css/style.css" type="text/css" rel="stylesheet">
+    <link href="../css/sb-admin.css" type="text/css" rel="stylesheet">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css'>
 
     
@@ -95,7 +96,7 @@
             <!-- /.nav-second-level -->
           </li>
           <li>
-            <a href="index-tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+            <a href="api/users/getquotes"><i class="fa fa-table fa-fw"></i> Tables</a>
           </li>
           <li>
             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
@@ -884,14 +885,14 @@
       </tr>
     </thead>
     <tbody id="myTable">
-      <%for( var i = 0; i < array.length ; i++){%>
+      <%for( var i = 0; i < result.length ; i++){%>
       <tr>
-        <td><%=array[i].company_name%>Company Name1</td>
-        <td><%=array[i].location%>Vijaynagar</td>
-        <td><%=array[i].gen_date%>26/11/2018</td>
-        <td><%=array[i].qty%>125</td>
-        <td><%=array[i].quality%>M 25</td>
-        <td><%=array[i].user%>USer</td>
+        <td><%=result[i].requestedByCompany%>Company Name1</td>
+        <td><%=result[i].customerSite%></td>
+        <td><%=result[i].generationDate%></td>
+        <td><%=result[i].quabtity%></td>
+        <td><%=result[i].quality%></td>
+        <td><%=result[i].requestedBy%></td>
         <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
           <form class="form-inline">
     <div class="form-group">

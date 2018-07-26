@@ -1,0 +1,38 @@
+<svg version="1.1"  x="0px" y="0px" width="358" height="258" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/">
+				
+				 <!-- ngRepeat: shape in logo.shapes | orderBy:'zindex' --><g ng-repeat="shape in logo.shapes | orderBy:'zindex'" class="ng-scope"> 
+					
+					<!-- ngIf: shape.type == 'text' -->
+					
+					
+	
+					
+					<!-- ngIf: shape.type == 'logo' || shape.type == 'shape' --><g type="container-logo" ng-click="clickOnItem($event,shape)" ng-class="{'active': shape.selected, 'dragging': dragging}" ng-right-click="rightClick($event)" class="logo-item ng-scope" transform="translate(96.128173828125 0) scale(1.60823467090924 1.6082365427128025) rotate(0 51.33050537109375 51.2984619140625)" ng-if="shape.type == 'logo' || shape.type == 'shape'" ng-styles="{'transform': 'translate(' + shape.x + 'px, ' + shape.y + 'px) scale(' + shape.ratio.w * shape.symetrieX+ ', ' + shape.ratio.h * shape.symetrieY + ') rotate(' + shape.rotate + 'deg)', '-webkit-transform': 'translate(' + shape.x + 'px, ' + shape.y + 'px) scale(' + shape.ratio.w * shape.symetrieX+ ', ' + shape.ratio.h * shape.symetrieY + ') rotate(' + shape.rotate + 'deg)', '-ms-transform': 'translate(' + shape.x + 'px, ' + shape.y + 'px) scale(' + shape.ratio.w * shape.symetrieX+ ', ' + shape.ratio.h * shape.symetrieY + ') rotate(' + shape.rotate + 'deg)'}" id="shape-3" ng-mousedown="mouseDownItem($event,shape)" ng-mouseover="mouseUpItem($event,shape)" ng-mouseout="mouseOutItem($event,shape)">
+	
+						<g type="logo" class="svg-item ng-isolate-scope ng-pristine ng-valid" ng-model="shape" ng-shape="" ng-click="skav($event, shape)"><linearGradient id="SVGID_3_0" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(90)" class="ng-scope"><stop offset="0%" stop-color="#cc5552" stop-opacity="1"></stop><stop offset="100%" stop-color="#ad1d1d" stop-opacity="1"></stop></linearGradient><path d="M51.329,26.945L4.945,73.329c2.536,5.337,5.964,10.165,10.093,14.294L51.329,51.33l12.193,12.193
+	L29.33,97.714c5.96,2.832,12.55,4.551,19.503,4.883l26.882-26.881l11.911,11.91c4.129-4.129,7.552-8.961,10.089-14.297
+	L51.329,26.945z" ng-click="mouseDown($event,0)" id="PATH_3_0" fill="#000000" class="ng-scope"></path><path d="M102.598,53.826c0.039-0.827,0.063-1.658,0.063-2.496C102.66,22.981,79.679,0,51.329,0
+	C22.981,0,0,22.981,0,51.33c0,0.836,0.023,1.667,0.063,2.496L51.329,2.559L102.598,53.826z" ng-click="mouseDown($event,1)" id="PATH_3_1" fill="#000000" class="ng-scope"></path></g>
+					</g><!-- end ngIf: shape.type == 'logo' || shape.type == 'shape' -->
+				 </g><!-- end ngRepeat: shape in logo.shapes | orderBy:'zindex' --><g ng-repeat="shape in logo.shapes | orderBy:'zindex'" class="ng-scope"> 
+					
+					<!-- ngIf: shape.type == 'text' --><g ng-dblclick="test($event)" on-change="changeText(shape)" ng-model="shape" ng-click="clickOnItem($event,shape)" ng-right-click="rightClick($event)" ng-class="{'active': shape.selected}" class="contenteditable logo-item ng-scope ng-pristine ng-valid" transform="translate(0 244)  scale(1 1)" ng-if="shape.type == 'text'" id="shape-1" ng-mousedown="mouseDownItem($event,shape)" ng-mouseover="mouseUpItem($event,shape)" ng-mouseout="mouseOutItem($event,shape)" contenteditable="false">
+						<text class="real-text ng-binding" id="text-1" dominant-baseline="auto" alignment-baseline="auto" font-family="Sansation" font-size="62px" fill="#000000" ng-attr-dx="{{shape.dx}}" xml:space="preserve" dx="0 0 0 0 0 0">Sample</text>
+					</g><!-- end ngIf: shape.type == 'text' -->
+					
+					
+	
+					
+					<!-- ngIf: shape.type == 'logo' || shape.type == 'shape' -->
+				 </g><!-- end ngRepeat: shape in logo.shapes | orderBy:'zindex' --><g ng-repeat="shape in logo.shapes | orderBy:'zindex'" class="ng-scope"> 
+					
+					<!-- ngIf: shape.type == 'text' --><g ng-dblclick="test($event)" on-change="changeText(shape)" ng-model="shape" ng-click="clickOnItem($event,shape)" ng-right-click="rightClick($event)" ng-class="{'active': shape.selected}" class="contenteditable logo-item ng-scope ng-pristine ng-valid" transform="translate(233.484375 244)  scale(1 1)" ng-if="shape.type == 'text'" id="shape-2" ng-mousedown="mouseDownItem($event,shape)" ng-mouseover="mouseUpItem($event,shape)" ng-mouseout="mouseOutItem($event,shape)" contenteditable="false">
+						<text class="real-text ng-binding" id="text-2" dominant-baseline="auto" alignment-baseline="auto" font-family="Sansation" font-size="62px" fill="#000000" ng-attr-dx="{{shape.dx}}" xml:space="preserve" dx="0 0 0 0">logo</text>
+					</g><!-- end ngIf: shape.type == 'text' -->
+					
+					
+	
+					
+					<!-- ngIf: shape.type == 'logo' || shape.type == 'shape' -->
+				 </g><!-- end ngRepeat: shape in logo.shapes | orderBy:'zindex' -->
+				 </svg>

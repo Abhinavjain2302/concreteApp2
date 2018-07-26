@@ -6,7 +6,7 @@ var nodemailer = require('nodemailer');
 var svgCaptcha = require('svg-captcha');
 var async = require('async');
 var mysql= require('mysql');
-var User = require('../models/User')
+//var User = require('../models/User')
 
 
 

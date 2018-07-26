@@ -16,13 +16,24 @@ var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var admin = require('./routes/admin')
+var admin = require('./routes/admin');
+//var css=require('./views/css');
 
+
+//var views=require('views/');
 var app = express();
+//app.use(express.static(path.join(__dirname,'/views')));
+app.use(express.static(path.join(__dirname,'/img')));
+app.use(express.static(path.join(__dirname,'/css')));
+app.use(express.static(path.join(__dirname,'/js')));
+app.use(express.static(path.join(__dirname,'/')));
+app.use(express.static(path.join(__dirname,'/public')));
+// app.use((express.static(path.join(__dirname,'/views'))));
+// app.use(express.static(__dirname + '/views'))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -30,7 +41,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '/views')));
 app.use(expressValidator());
 app.use(session({
     secret: 'keyboard cat',
@@ -38,14 +49,20 @@ app.use(session({
     saveUninitialized: true
 }));
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
+//app.use('/api/users/views',views);
 app.use('/api/', index);
 app.use('/api/users', users);
-app.use('/api/admin', admin)
-app.use('*', function(req, res){
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+app.use('/api/admin', admin);
+//app.use('/api/users/css',css);
+// app.use('*', function(req, res){
+//   res.sendFile(path.join(__dirname, 'views/index.html'));
+// })
+app.use('/index.html', function(req, res){
+  res.sendFile(path.join(__dirname, 'views/index.html'));
 })
 
 app.use(expressValidator({

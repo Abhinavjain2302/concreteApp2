@@ -651,9 +651,9 @@ router.get('/getquotes', function(req, res){
        connection.connect(function(err){
     console.log("Connected form getquotes");
     connection.query("select * from quotes ",function(err,result,fields){
-
-		if(err)throw err;
-		res.send(result);
+    if(err)throw err;
+		//res.send(result);
+		res.render("index-tables.ejs", {result:result});
 	});
 })
    });
