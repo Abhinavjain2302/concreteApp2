@@ -787,8 +787,16 @@
       <tr>
         <td><%=result[i].requestedByCompany%>Company Name1</td>
         <td><%=result[i].customerSite%></td>
-        <td><%=result[i].generationDate%></td>
-        <td><%=result[i].quabtity%></td>
+        <td>
+          <%for( var i = 0; i < 5 ; i++){%>
+            <%=result[i].generationDate%>
+          <%}%>
+        </td>
+        <td>
+          <%for( var i = 0; i < 5 ; i++){%>
+            <%=result[i].quantity%>
+          <%}%>
+        </td>
         <td><%=result[i].quality%></td>
         <td><%=result[i].requestedBy%></td>
         <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
