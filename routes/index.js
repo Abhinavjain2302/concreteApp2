@@ -239,7 +239,7 @@ function getAllUserDashboardDetails(req, res, userId, token){
        connection.query(sql,function(err,result4,fields){
       console.log(quantityArray.length);
 
-  var sql="select  quantity,quality from multipledata where  quoteId IN (";
+      var sql="select quantity,quality from multipledata where  quoteId IN (";
       for(i=0;i<result1.length;i++){
        var sql= sql+result1[i].quoteId+",";
          }
@@ -251,7 +251,6 @@ function getAllUserDashboardDetails(req, res, userId, token){
          if(err) throw err;
              else{
           
-
             for(i=0;i<result1.length;i++)
             {
                

@@ -9,6 +9,7 @@ var secret="supersecret";
 var async = require('async');
 var bcrypt = require('bcrypt');
 var mysql= require('mysql');
+var session = require('express-session');
 //importing passport and its local strategy
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -212,6 +213,7 @@ router.post('/login', function(req, res, next){
 				}
 				jwt.sign({id: result[0].userId}, secret, function(err, token){
                     if(err)handleError(err, null, res);
+                    req.session.token=token;
                     return res.json({
                     	success:true,
                     	token:token,
@@ -304,7 +306,10 @@ console.log(city);
 
 //this route returns the profile info of the current logged in user
 router.get('/profile', function(req,res){
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+//checking session use for token
+console.log(req.session.token);
+	jwt.verify(req.session.token, secret, function(err, decoded){
+//	jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
@@ -648,15 +653,73 @@ router.post('/reset/:token', function(req, res){
 router.get('/getquotes', function(req, res){
 	//Quote.getAllQuotesForSupplier(function(err, quotes){
 	
-       connection.connect(function(err){
+       var quantityArray=[]; 
+        var qualityArray=[];    
+       var result=[];
+
+    connection.connect(function(err){
     console.log("Connected form getquotes");
-    connection.query("select * from quotes ",function(err,result,fields){
+
+     connection.query("select * from quotes order By quoteId ",function(err,result1,fields){
     if(err)throw err;
+  
+  //To initialize the arrays
+        for(var i=0;i<result1.length;i++){
+        	qualityArray.push([]);
+        	quantityArray.push([]);
+        }
+
+
+     var sql="select quantity,quality,quoteId from multipledata order By quoteId ";
+
+       connection.query(sql,function(err,result3,fields){
+       // console.log(result3);
+         if(err) throw err;
+             else{
+          
+            for(i=0;i<result1.length;i++)
+            {
+               
+             for( j=0;j<result3.length;j++){
+
+                 if(result3[j].quoteId==result1[i].quoteId){
+                 
+                     quantityArray[i].push(result3[j].quantity);
+                     qualityArray[i].push(result3[j].quality);
+                   }
+               }
+     }
+           
+
+           console.log(quantityArray);
+
+            }
+console.log(qualityArray);
+   
+
+                
+           for(i=0;i<result1.length;i++){
+           result[i]={
+                   "quantity":  quantityArray[i],
+                   "quality":   qualityArray[i],
+                   "customerSite": result1[i].customerSite,
+                   "generationDate": result1[i].generationDate,
+                   "requiredDate": result1[i].requiredDate,
+                   "requestedBy": result1[i].requestedBy,
+                   "requestedByCompany": result1[i].requestedByCompany,
+                   "requestedById": result1[i].requestedById,
+                 }
+  
+             } 
+
+
+
 		//res.send(result);
 		res.render("index-tables.ejs", {result:result});
 	});
 })
    });
+});
 
 
 //this will record the suppliers response to quotes
