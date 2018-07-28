@@ -187,11 +187,19 @@ router.post('/login', function(req, res, next){
 					errors:errors
 				});
 			}
+
 			if(result.length<=0){
 				console.log("user with username : " + username + " not found");
 				return res.json({
 					success:false,
 					msg:"user with this username does not exist",
+					errors:errors
+				})
+			}
+			if(result[0].usertype=='contractor'){
+				return res.json({
+					success:false,
+					msg:"You are a contractor!! Login from concreteApp",
 					errors:errors
 				})
 			}
@@ -695,21 +703,21 @@ router.get('/getquotes', function(req, res){
 
             }
 console.log(qualityArray);
-   
-
+                   
                 
            for(i=0;i<result1.length;i++){
            result[i]={
                    "quantity":  quantityArray[i],
                    "quality":   qualityArray[i],
                    "customerSite": result1[i].customerSite,
-                   "generationDate": result1[i].generationDate,
+                   "generationDate":result1[i].generationDate,
                    "requiredDate": result1[i].requiredDate,
                    "requestedBy": result1[i].requestedBy,
                    "requestedByCompany": result1[i].requestedByCompany,
                    "requestedById": result1[i].requestedById,
                  }
   
+             console.log(new Date(Number(result1[i].generationDate)).toUTCString());
              } 
 
 
