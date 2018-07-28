@@ -30,7 +30,7 @@ var PO = require('../models/PurchaseOrder');
 var connection=mysql.createConnection({
       host:"localhost",
       user:"root",
-      password:"abhi",
+      password:"root",
       database:"concrete"
 
 });
@@ -716,8 +716,11 @@ console.log(qualityArray);
                    "requestedByCompany": result1[i].requestedByCompany,
                    "requestedById": result1[i].requestedById,
                  }
+<<<<<<< HEAD
   
              console.log(new Date(Number(result1[i].generationDate)).toUTCString());
+=======
+>>>>>>> 8c54aec4c1bfa70bd6db6d309152163d4fa3c0e0
              } 
 
 

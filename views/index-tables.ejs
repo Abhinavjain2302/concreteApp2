@@ -886,10 +886,13 @@
     </thead>
     <tbody id="myTable">
       <%for( var i = 0; i < result.length ; i++){%>
+      <% var no=Number(result[i].generationDate);
+      var d= new Date(no);
+      var correctDate=(d.toUTCString()).slice(5,16);%>
       <tr>
         <td><%=result[i].requestedByCompany%></td>
         <td><%=result[i].customerSite%></td>
-        <td><%=result[i].generationDate%></td>
+        <td id=gen_date><%=correctDate%></td>
         <td>
         <table>
         <%for( var j = 0; j < result[i].quantity.length ; j++){%>
