@@ -11,12 +11,13 @@ var mysql= require('mysql');
 
 
 var connection=mysql.createConnection({
-      host:"localhost",
-      user:"root",
-      password:"abhi",
-      database:"concrete"
+	host:"localhost",
+	user:"root",
+	password:"root",
+	database:"concrete"
 
 });
+
 
 
 router.get('/', (req, res) => {
