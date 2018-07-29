@@ -25,7 +25,13 @@ var Quote = require('../models/Quotations');
 var PO = require('../models/PurchaseOrder');
 */
 
+// var connection=mysql.createConnection({
+//       host:"localhost",
+//       user:"root",
+//       password:"abhi",
+//       database:"concrete"
 
+// });
 
 var connection=mysql.createConnection({
       host:"localhost",
@@ -118,18 +124,18 @@ router.get('/', isAuthenticated, function(req, res, next){
 
 
 //for login page
-router.get('/login', function(req, res, next){
-	//here we generate captcha
-	var captcha = svgCaptcha.create();
-	//now we store the captcha text in req.session object
-	// for later verification on POST
-	req.session.captcha = captcha.text;
+// router.get('/login', function(req, res, next){
+// 	//here we generate captcha
+// 	var captcha = svgCaptcha.create();
+// 	//now we store the captcha text in req.session object
+// 	// for later verification on POST
+// 	req.session.captcha = captcha.text;
 
-	//we send along the captcha SVG(image) in the captcha variable
-	res.render('login2',{
-		captcha:captcha.data
-	})
-});
+// 	//we send along the captcha SVG(image) in the captcha variable
+// 	res.render('login2',{
+// 		captcha:captcha.data
+// 	})
+// });
 
 
 
@@ -158,79 +164,68 @@ router.post('/login', function(req, res, next){
 	console.log(req.body);
 	//getting all the validation errors
 	var errors = req.validationErrors();
-	if(errors){
-		console.log(errors);
-		res.json({
-			success:false,
-			msg:"there was some error",
-			errors:errors
-		})
-	}else{
-		console.log('else called');
-		console.log(username, password);						
-		//checking the user credentials for loggin him in with session
-	
-
-          connection.connect(function(err){
-            // if(err) throw err;
+	if(errors)
+	{
+	    console.log(errors);
+		//res.redirect('/login');
+         return  res.render('login',{success:false,msg:'There was some error' });
+     }
+     else{
+		   console.log('else called');
+		   console.log(username, password);						
+		   //checking the user credentials for loggin him in with session
+	        connection.connect(function(err){
 		    console.log("Connected from login");
-		    //console.log("select * from user where email='"+username+"'");
 		    connection.query("select *  from user where email='"+username+"'",function(err,result,fields){
 
-		//User.findByUsername(username, function (err, user) {
-			//console.log(user);
 			console.log(err);
 			if(err){
-				return res.json({
-					success:false,
-					msg:"there was some error",
-					errors:errors
-				});
+				return  res.render('login',{success:false,msg:'There was some error' });
 			}
 
-			if(result.length<=0){
-				console.log("user with username : " + username + " not found");
-				return res.json({
-					success:false,
-					msg:"user with this username does not exist",
-					errors:errors
-				})
+			if(result.length<=0)
+			{
+				  console.log("user with username : " + username + " not found");
+			     return res.render('login',{success:false,msg:'user with this username does not exist'});
+
+			
 			}
-			if(result[0].usertype=='contractor'){
-				return res.json({
-					success:false,
-					msg:"You are a contractor!! Login from concreteApp",
-					errors:errors
-				})
+			
+            if(result[0].usertype=='contractor')
+            {
+	            return res.render('login',{success:false,msg:'You are a contractor!! Login from concreteApp'});
 			}
-			//User.comparePassword(password, user.password, function (err, isMatch) {
-				 bcrypt.compare(password, result[0].password , function(err, isMatch){
-				if(err){
+
+	     	 bcrypt.compare(password, result[0].password , function(err, isMatch){
+				if(err)
+				{
 					console.log(errors);
-					return res.json({
-						success:false,
-						msg:"there was some error",
-						errors:errors
-					})
+					return res.render('login',{success:false,msg:'there was some error'});
+			    }
+				if(!isMatch)
+				{
+					return res.render('login',{success:false,msg:'Password is incorrect'});
+
 				}
-				if(!isMatch){
-					return res.json({
-						success:false,
-						msg:"Password is incorrect"
-					})
-				}
-				jwt.sign({id: result[0].userId}, secret, function(err, token){
-                    if(err)handleError(err, null, res);
+				jwt.sign({id: result[0].userId}, secret, function(err, token)
+				{
+                  //  if(err)handleError(err, null, res);
+                  if(err)
+				{
+					console.log(err);
+					return res.render('login',{success:false,msg:'there was some error'});
+			    }
                     req.session.token=token;
-                    return res.json({
-                    	success:true,
-                    	token:token,
-                    	confirmedAccount: result[0].verified
-                    });
-                });
+                  //   return res.json({
+                  //   	success:true,
+                  //   	token:token,
+                  //   	confirmedAccount: result[0].verified
+                  // });
+                    return res.render('index');
+               });
 			});
 		});
-		});
+      });
 	}
 });
 
@@ -716,12 +711,9 @@ console.log(qualityArray);
                    "requestedByCompany": result1[i].requestedByCompany,
                    "requestedById": result1[i].requestedById,
                  }
-<<<<<<< HEAD
   
-             console.log(new Date(Number(result1[i].generationDate)).toUTCString());
-=======
->>>>>>> 8c54aec4c1bfa70bd6db6d309152163d4fa3c0e0
-             } 
+            // console.log(new Date(Number(result1[i].generationDate)).toUTCString());
+}
 
 
 

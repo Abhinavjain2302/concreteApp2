@@ -26,7 +26,7 @@ var app = express();
 app.use(express.static(path.join(__dirname,'/img')));
 app.use(express.static(path.join(__dirname,'/css')));
 app.use(express.static(path.join(__dirname,'/js')));
-app.use(express.static(path.join(__dirname,'/')));
+//app.use(express.static(path.join(__dirname,'/')));
 app.use(express.static(path.join(__dirname,'/public')));
 // app.use((express.static(path.join(__dirname,'/views'))));
 // app.use(express.static(__dirname + '/views'))
@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -54,13 +54,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //app.use('/api/users/views',views);
-app.use('/api/', index);
-app.use('/api/users', users);
-app.use('/api/admin', admin);
+app.use('/', index);
+app.use('/users', users);
+app.use('/admin', admin);
 //app.use('/api/users/css',css);
-// app.use('*', function(req, res){
-//   res.sendFile(path.join(__dirname, 'views/index.html'));
-// })
+app.get('/login', function(req, res){
+   console.log("here1");
+  res.render('login.ejs',{success:null});
+})
+
+app.get('/logout', function(req, res){
+   console.log("logout successfull");
+   req.session.destroy(function(err){
+   console.log("session destroyed");
+    if(err)
+    {
+      console.log("error in destroying session");
+      req.negotiate(err);
+    }
+   })
+  res.render('login.ejs',{success:null});
+})
+
+app.get('/index', function(req, res){
+  res.render('index.ejs');
+})
+
 app.use('/index.html', function(req, res){
   res.sendFile(path.join(__dirname, 'views/index.html'));
 })

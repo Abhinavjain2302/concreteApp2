@@ -35,11 +35,19 @@ var sendgridPass = process.env.SENDGRID_PASS;
 
 // sql functions
 // mysql connection establishment
+// var connection=mysql.createConnection({
+//       host:"localhost",
+//       user:"root",
+//       password:"abhi",
+//       database:"concrete"
+
+// });
+
 var connection=mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"root",
-    database:"concrete"
+      host:"localhost",
+      user:"root",
+      password:"root",
+      database:"concrete"
 
 });
 
@@ -2133,15 +2141,15 @@ passport.use(new LocalStrategy(
 
 
 //for login page
-router.get('/login', function(req, res, next){
-    //here we generate captcha
-    var captcha = svgCaptcha.create();
-    //now we store the captcha text in req.session object
-    // for later verification on POST
-    req.session.captcha = captcha.text;
+// router.get('/login', function(req, res, next){
+//     //here we generate captcha
+//     var captcha = svgCaptcha.create();
+//     //now we store the captcha text in req.session object
+//     // for later verification on POST
+//     req.session.captcha = captcha.text;
 
-    //we send along the captcha SVG(image) in the captcha variable
-    res.render('login',{
-        captcha:captcha.data
-    });
-});
+//     //we send along the captcha SVG(image) in the captcha variable
+//     res.render('login',{
+//         captcha:captcha.data
+//     });
+// });
