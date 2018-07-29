@@ -727,7 +727,9 @@ console.log(qualityArray);
 
 //this will record the suppliers response to quotes
 router.post('/respondtoquote', function(req, res){
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+	console.log(req.session.token);
+		jwt.verify(req.session.token, secret, function(err, decoded){
+	//jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
