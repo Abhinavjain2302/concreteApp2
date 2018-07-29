@@ -25,21 +25,21 @@ var Quote = require('../models/Quotations');
 var PO = require('../models/PurchaseOrder');
 */
 
-// var connection=mysql.createConnection({
-//       host:"localhost",
-//       user:"root",
-//       password:"abhi",
-//       database:"concrete"
-
-// });
-
 var connection=mysql.createConnection({
       host:"localhost",
       user:"root",
-      password:"root",
+      password:"abhi",
       database:"concrete"
 
 });
+
+// var connection=mysql.createConnection({
+//       host:"localhost",
+//       user:"root",
+//       password:"root",
+//       database:"concrete"
+
+// });
 
 
 //These are all the get requests
