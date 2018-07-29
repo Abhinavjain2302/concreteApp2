@@ -80,6 +80,7 @@ app.get('/index', function(req, res){
   res.render('index.ejs');
 })
 
+
 app.use('/index.html', function(req, res){
   res.sendFile(path.join(__dirname, 'views/index.html'));
 })

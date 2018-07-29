@@ -907,7 +907,7 @@ router.post('/deletesite', function(req, res){
 
 //this route returns the profile info of the current logged in user
 router.get('/profile', function(req,res){
-
+console.log("from index");
     jwt.verify(req.headers.authorization, secret, function(err, decoded){
         if(err){
             //console.log("%%%%%%%%%%%%%%%%%%%" + err);

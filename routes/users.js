@@ -336,13 +336,16 @@ console.log(req.session.token);
    if(err) throw err;
 
 //connectionsite sql
-			    connection.query("select * from customerSite where userId='"+userId+"'",function(err,result,fields){
-			   if(err) throw err;
-			   	res.json({
-				success:true,
-				user:results[0],
-				customerSite:result[0]
-			})
+   connection.query("select * from customerSite where userId='"+userId+"'",function(err,result,fields){
+   	 if(err) throw err;
+	res.render('user-profile',{user:results});	     
+             
+
+			//    	res.json({
+			// 	success:true,
+			// 	user:results[0],
+			// 	customerSite:result[0]
+			// })
 		})
 	})
 })
@@ -352,7 +355,9 @@ console.log(req.session.token);
 //this route is called as POST when profile change is required
 router.post('/profile', function(req, res){
 
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+	console.log(req.session.token);
+	jwt.verify(req.session.token, secret, function(err, decoded){
+//	jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
@@ -383,10 +388,11 @@ router.post('/profile', function(req, res){
 
 		if(errors){
 			//console.log(errors);
-			res.json({
-				success:false,
-				msg:"there was some error retrieving the profile"
-			})
+			// res.json({
+			// 	success:false,
+			// 	msg:"there was some error retrieving the profile"
+			// })
+		res.render('user-profile');
 		}else{
 			
 			//User.findOneById(id, function(err, user){
@@ -394,6 +400,7 @@ router.post('/profile', function(req, res){
                
             connection.connect(function(err){
 		   // if(err) throw err;
+		    
 		    console.log("Connected from post profile");
 		  
 			    var sql="update user SET name='"+name+"', email='"+email+"',contact='"+contact+"',pan='"+pan+"',gstin='"+gstin+"' where userId='"+id+"'";
@@ -403,12 +410,16 @@ router.post('/profile', function(req, res){
 						handleError(err, 'error updating user details', res);
 						return;
 					}
-					res.json({
-						success:true,
-						msg:" user profile update successful"
-					})
+					connection.query("select * from user where userId='"+userId+"'",function(err,results,fields){
+             if(err) throw err;
+					// res.json({
+					// 	success:true,
+					// 	msg:" user profile update successful"
+					// })
+					res.render('user-profile',{user:results});
 				})
 			})
+		})
 		}
 	})
 });
