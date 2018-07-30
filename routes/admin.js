@@ -9,21 +9,21 @@ var mysql= require('mysql');
 //var User = require('../models/User')
 
 
-// var connection=mysql.createConnection({
-//       host:"localhost",
-//       user:"root",
-//       password:"abhi",
-//       database:"concrete"
-
-// });
-
 var connection=mysql.createConnection({
       host:"localhost",
       user:"root",
-      password:"root",
+      password:"abhi",
       database:"concrete"
 
 });
+
+// var connection=mysql.createConnection({
+//       host:"localhost",
+//       user:"root",
+//       password:"root",
+//       database:"concrete"
+
+// });
 
 
 
