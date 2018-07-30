@@ -1,3 +1,4 @@
+
 <% include header.ejs %>
     <% include navbar.ejs %>
     <!-- /.navbar-header -->
@@ -818,21 +819,23 @@
         </td>
        <td><%=result[i].requestedBy%></td>
         <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
-          <form class="form-inline">
+          <form class="form-inline" action="../users/respondtoquote" method="POST">
     <div class="form-group">
       <%for( var j = 0; j < result[i].quality.length ; j++){%>
       <table>
       <tr>
         <td>
-        <input type="number" class="form-control" id="inputEmail" placeholder="Enter Price" style="margin-bottom: 10px;">
+        <input type="number" class="form-control" id="inputEmail" placeholder="Enter Price" style="margin-bottom:10px;" name="price">
       </td>
       </tr>
       </table>
       <%}%> 
     </div>
     <div class="form-group">
-        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date">
+        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date" name="validTill">
     </div>
+    <input type="text" name="quoteId" value="<%=result[i].quoteId%>" style="display:none">
+    <input type="text" name="requestedById" value="<%=result[i].requestedById%>" style="display:none">
     <button type="submit" class="btn btn-primary">Response</button>
 </form>
           

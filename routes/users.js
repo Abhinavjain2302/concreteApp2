@@ -25,21 +25,21 @@ var Quote = require('../models/Quotations');
 var PO = require('../models/PurchaseOrder');
 */
 
-var connection=mysql.createConnection({
-      host:"localhost",
-      user:"root",
-      password:"abhi",
-      database:"concrete"
-
-});
-
 // var connection=mysql.createConnection({
 //       host:"localhost",
 //       user:"root",
-//       password:"root",
+//       password:"abhi",
 //       database:"concrete"
 
 // });
+
+var connection=mysql.createConnection({
+      host:"localhost",
+      user:"root",
+      password:"root",
+      database:"concrete"
+
+});
 
 
 //These are all the get requests
@@ -721,6 +721,7 @@ console.log(qualityArray);
                    "requestedBy": result1[i].requestedBy,
                    "requestedByCompany": result1[i].requestedByCompany,
                    "requestedById": result1[i].requestedById,
+                   "quoteId":result1[i].quoteId
                  }
   
             // console.log(new Date(Number(result1[i].generationDate)).toUTCString());
@@ -743,19 +744,28 @@ router.post('/respondtoquote', function(req, res){
 	//jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
-			res.json({
-				success:false,
-				msg:"some error occured"
-			})
-			return;
+		return	res.render('/index-tables', {success:false,msg:"some error occured"})
+			// res.json({
+			// 	success:false,
+			// 	msg:"some error occured"
+			// })
+			// return;
 		}
 		var userId =  decoded.id;
-	
+	    
+
+	    var price=[];
 		var rmxId = userId;
 		var price = req.body.price;
 		var validTill = req.body.validTill;
 		var quoteId = req.body.quoteId;
-
+		var requestedById=req.body.requestedById;
+        
+        console.log(req.body.price);
+        console.log(req.body.validTill);
+		console.log(req.body.quoteId);
+	    console.log(req.body.requestedById);
+		
 		var response = {
 			rmxId:rmxId,
 			price:price,
@@ -764,10 +774,9 @@ router.post('/respondtoquote', function(req, res){
 		console.log(response);
 	//	Quote.respondToQuote(quoteId, response, function(err, quote){
 			
-              connection.connect(function(err){
-    console.log("Connected form respond to quotes");
-    connection.query(" update responses set rmxId='"+response.rmxId+"' ,price='"+response.price+"', validTill='"+response.validTill+"' where quoteId='"+quoteId+"'",function(err,result,fields){
-
+     connection.connect(function(err){
+    console.log("Connected from respond to quotes");
+    connection.query(" update responses set rmxId='"+response.rmxId+"', validTill='"+response.validTill+"',userId='"+requestedById+"' where quoteId='"+quoteId+"'",function(err,result,fields){
 			if(err){
 				res.json({
 					success:false,

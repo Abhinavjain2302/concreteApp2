@@ -35,21 +35,21 @@ var sendgridPass = process.env.SENDGRID_PASS;
 
 // sql functions
 // mysql connection establishment
-var connection=mysql.createConnection({
-      host:"localhost",
-      user:"root",
-      password:"abhi",
-      database:"concrete"
-
-});
-
 // var connection=mysql.createConnection({
 //       host:"localhost",
 //       user:"root",
-//       password:"root",
+//       password:"abhi",
 //       database:"concrete"
 
 // });
+
+var connection=mysql.createConnection({
+      host:"localhost",
+      user:"root",
+      password:"root",
+      database:"concrete"
+
+});
 
 
 
