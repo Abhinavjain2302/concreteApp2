@@ -990,7 +990,15 @@
       <table>
       <tr>
         <td>
-       <%=aQuotes[i].price%>
+      <%for(var k=0;k<aQuotes[i].responses.length;k++){%>
+      <%if(aQuotes[i].responses[k].rmxId==aQuotes[i].id){%>
+      <%for(var j=0;j<aQuotes[i].price.id.length;j++){%>
+      <%if(aQuotes[i].price.id[j]==aQuotes[i].responses[k].id){%>
+       <%=aQuotes[i].price.prices[j]%>
+       <%}%>
+       <%}%>
+      <%}%>
+      <%}%>
       </td>
       </tr>
       </table>

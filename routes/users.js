@@ -42,6 +42,15 @@ var connection=mysql.createConnection({
 // });
 
 
+
+
+
+
+
+
+
+
+
 //These are all the get requests
 
 /* GET home page. */
@@ -108,13 +117,6 @@ router.get('/', isAuthenticated, function(req, res, next){
 // console.log(quantityArray);
 
          //from index.js we have to make a result and then pass in for each loop
-      //var sql="select * from responses where rmxId='"+userId+"'";
-      // for(i=0;i<result1.length;i++){
-      //  var sql= sql+result1[i].quoteId+",";
-      //    }
-      //    sql=sql.slice(0,-1);
-      //    sql=sql+")";
-         // console.log(sql);
         var sql="select * from responses";
        connection.query(sql,function(err,results,fields){
        // console.log(results);
@@ -145,7 +147,7 @@ if(results.length>0){
        var sql= sql+result1[i].quoteId+",";
          }
          sql=sql.slice(0,-1);
-         sql=sql+") GROUP BY quoteId";
+         sql=sql+") group BY quoteId";
          console.log(sql);
      
        connection.query(sql,function(err,result14,fields){
@@ -181,14 +183,14 @@ var sql="select price,id,quoteId from pricetable where id IN (";
                console.log(priceArray);
                console.log(idArray);
 
-// for(var i=0;i<priceArray.length;i++){
-// priceresponse[i]={
+for(var i=0;i<priceArray.length;i++){
+priceresponse[i]={
 
-// "prices":priceArray[i],
-// "id":idArray[i]
-//   }
-// }
-// console.log(priceresponse[0]);
+"prices":priceArray[i],
+"id":idArray[i]
+  }
+}
+console.log(priceresponse[0]);
 
   
 
@@ -203,7 +205,7 @@ var sql="select price,id,quoteId from pricetable where id IN (";
                    "requestedByCompany": result1[i].requestedByCompany,
                    "requestedById": result1[i].requestedById,
                    "quoteId": result1[i].quoteId,
-                    "price":priceArray[i],
+                    "price":priceresponse[i],
                    "responses": array[i],
                    "id":userId
                  }
@@ -888,8 +890,9 @@ console.log(qualityArray);
 });
 
 
+
 //this will record the suppliers response to quotes
-router.post('/respondtoquote', function(req, res){
+router.post('/respondtoquote', function(req, res,next){
 	console.log(req.session.token);
 		jwt.verify(req.session.token, secret, function(err, decoded){
 	//jwt.verify(req.headers.authorization, secret, function(err, decoded){
@@ -904,7 +907,9 @@ router.post('/respondtoquote', function(req, res){
       	}
 		var rmxId = userId;
 		var price = req.body.price;
-		var validTill = new Date(req.body.validTill).getMilliseconds();
+		var validTill = new Date(req.body.validTill).getTime();
+         console.log(req.body.validTill);
+		 console.log(validTill);
 		var quoteId = req.body.quoteId;
 		var requestedById=req.body.requestedById;
         
@@ -986,17 +991,21 @@ router.post('/respondtoquote', function(req, res){
 			// 	return;
 			// };
 			//console.log(quote);
-			return res.render('index-tables',{success:true,msg:'respond to quote submitted',result:null});
+			//return res.render('index-tables',{success:true,msg:'respond to quote submitted',result:null});
 			// res.json({
 			// 	success:true,
 			// 	msg: 'respond to quote submitted' + result
 			// })
+			//return next();
+			res.redirect('/users/');
 		})
 	})
 })
 
 });
 });
+
+
 //this api will remove a quote response that a supplier submitted earlier
 router.post('/removequote', function(req, res){
 	var quoteId = req.body.quoteId;
