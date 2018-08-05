@@ -9,7 +9,10 @@ var mysql= require('mysql');
 //var User = require('../models/User')
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 32634bac7f9afc2bef6524f01bb2abd4cf5ca2d9
 var connection=mysql.createConnection({
       host:"localhost",
       user:"root",
@@ -25,6 +28,10 @@ var connection=mysql.createConnection({
 //       database:"concrete"
 
 // });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 32634bac7f9afc2bef6524f01bb2abd4cf5ca2d9
 
 
 

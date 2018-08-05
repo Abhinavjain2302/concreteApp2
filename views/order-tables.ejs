@@ -1,79 +1,12 @@
-
 <% include header.ejs %>
     <% include navbar.ejs %>
-    <!-- /.navbar-header -->
-     
-         <!-- <li>
-            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level">
-              <li>
-                <a href="panels-wells.html">Panels and Wells</a>
-              </li>
-              <li>
-                <a href="buttons.html">Buttons</a>
-              </li>
-              <li>
-                <a href="notifications.html">Notifications</a>
-              </li>
-              <li>
-                <a href="typography.html">Typography</a>
-              </li>
-              <li>
-                <a href="icons.html"> Icons</a>
-              </li>
-              <li>
-                <a href="grid.html">Grid</a>
-              </li>
-            </ul>
-            
-          </li>-->
-          <!--<li>
-            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level">
-              <li>
-                <a href="#">Second Level Item</a>
-              </li>
-              <li>
-                <a href="#">Second Level Item</a>
-              </li>
-              <li>
-                <a href="#">Third Level <span class="fa arrow"></span></a>
-                <ul class="nav nav-third-level">
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                  <li>
-                    <a href="#">Third Level Item</a>
-                  </li>
-                </ul>
-               
-              </li>
-            </ul>
-            
-          </li>-->
-        <!--  <li>
-            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level">
-              <li>
-                <a href="blank.html">Blank Page</a>
-              </li>
-              <li>
-                <a href="login.html">Login Page</a>
-              </li>
-            </ul>
-           
-          </li> -->
-      <!-- /.sidebar-collapse -->
-  ><!--end sidebar navbar here-->
             
             <!--main content here-->
-              
+            <section class="main-content-custom">
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="background:#fff;border:solid thin #e1e1e1">
+               <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;">Tables</h3>
+                <p>Pending Purchase Orders <span class="badge" style="background:#f0ad4e">5</span></p>
+                
                 <!--upper chart data here-->
                    
   <!--  <div class="row">
@@ -703,229 +636,6 @@
       
     </div>-->
                 
-
-     <!--   <div class="panel panel-primary filterable">
-            <div class="panel-heading">
-                <h3 class="panel-title">Users</h3>
-                <div class="pull-right">
-                    <button class="btn btn-default btn-xs btn-filter">
-<i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
-                </div>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr class="filters">
-                        <th><input type="text" class="form-control" placeholder="Company Name" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Location" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Generation Date" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Quantity" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Quality" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Required By" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Response" disabled></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Company Name1</td>
-                        <td>Vijay Nagar</td>
-                        <td>12/06/2018</td>
-                        <td>50</td>
-                        <td>M25</td>
-                        <td>User</td>
-                        <td><button type="button" class="btn btn-info custom-btn-reponse" onclick="myFunction();">RESPONSE</button></td>
-                          
-                       
-                        
-                        
-                    </tr>
-               
-                    <tr>
-                        <td>Company Name1</td>
-                        <td>Vijay Nagar</td>
-                        <td>12/06/2018</td>
-                        <td>50</td>
-                        <td>M25</td>
-                        <td>User</td>
-                    </tr>
-                    <tr>
-                       <td>Company Name1</td>
-                        <td>Vijay Nagar</td>
-                        <td>12/06/2018</td>
-                        <td>50</td>
-                        <td>M25</td>
-                        <td>User</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
-        <section class="main-content-custom">
-          <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="background:#fff;border:solid thin #e1e1e1">
-             <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;">Tables</h3>
-              <p><strong>Request For Quotation</strong> <span class="badge" style="background:#f0ad4e;margin-left:10px;"><%=uQuotes.length%></span></p>
-            
-                    <div class="">
-                    
-                     <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr class="custom-table-row">
-        <th>Company Name</th>
-        <th>Location</th>
-        <th>Generation Date</th>
-        <th>Quantity</th>
-        <th>Quality</th>
-        <th>Required By</th>
-        <th>Response</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-      <%for( var i = 0; i < uQuotes.length ; i++){%>
-      <% var no=Number(uQuotes[i].generationDate);
-      var d= new Date(no);
-      var correctDate=(d.toUTCString()).slice(5,16);%>
-      <tr>
-        <td><%=uQuotes[i].requestedByCompany%></td>
-        <td><%=uQuotes[i].customerSite%></td>
-        <td id=gen_date><%=correctDate%></td>
-        <td>
-        <table>
-        <%for( var j = 0; j < uQuotes[i].quantity.length ; j++){%>
-        <tr>
-          <td>
-        <%=uQuotes[i].quantity[j]%>
-        <br><br>
-        </td>
-        </tr>
-        <%}%> 
-        </table>
-        </td>
-        <td>
-        <table>
-       <%for( var j = 0; j < uQuotes[i].quality.length ; j++){%>
-        <tr>
-          <td>
-        <%=uQuotes[i].quality[j]%>
-        <br><br>
-       </td>
-        </tr>
-         <%}%> 
-        </table>
-        </td>
-       <td><%=uQuotes[i].requestedBy%></td>
-        <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
-          <form class="form-inline" action="../users/respondtoquote" method="POST">
-    <div class="form-group">
-      <%for( var j = 0; j < uQuotes[i].quality.length ; j++){%>
-      <table>
-      <tr>
-        <td>
-        <input type="number" class="form-control" id="inputEmail" placeholder="Enter Price" style="margin-bottom:10px;" name="price">
-      </td>
-      </tr>
-      </table>
-      <%}%> 
-    </div>
-    <div class="form-group">
-        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date" name="validTill">
-    </div>
-    <input type="text" name="quoteId" value="<%=uQuotes[i].quoteId%>" style="display:none">
-    <input type="text" name="requestedById" value="<%=uQuotes[i].requestedById%>" style="display:none">
-    <button type="submit" class="btn btn-primary">Response</button>
-</form>
-          
-          </td>
-      </tr>
-      <%}%>
-        <tr id="mydiv" style="display:none">
-        <td><input type="text" class="form-control" placeholder="Enter Price"></td>
-        <td><input type="date" class="form-control" placeholder="Enter Date"></td>
-        <td><input type="submit" class="btn btn-primary"></td>
-        </tr>
-      <tr>
-       <td>Company Name1</td>
-        <td>Vijaynagar</td>
-        <td>26/11/2018</td>
-        <td>125</td>
-        <td>M 25</td>
-        <td>USer</td>
-          <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction2();">Response</button>-->
-            <form class="form-inline">
-    <div class="form-group">
-        <input type="text" class="form-control" id="inputEmail" placeholder="Enter Price">
-    </div>
-    <div class="form-group">
-        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date">
-    </div>
-    <button type="submit" class="btn btn-primary">Response</button>
-</form>
-          </td>
-      </tr>
-         <tr id="mydiv2" style="display:none">
-        <td><input type="text" class="form-control" placeholder="Enter Price"></td>
-        <td><input type="date" class="form-control" placeholder="Enter Date"></td>
-        <td><input type="submit" class="btn btn-primary"></td>
-        </tr>
-      <tr>
-        <td>Company Name1</td>
-        <td>bhawarkua</td>
-        <td>26/11/2018</td>
-        <td>125</td>
-        <td>M 25</td>
-        <td>USer</td>
-          <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction3();">Response</button>-->
-            <form class="form-inline">
-    <div class="form-group">
-        <input type="text" class="form-control" id="inputEmail" placeholder="Enter Price">
-    </div>
-    <div class="form-group">
-        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date">
-    </div>
-    <button type="submit" class="btn btn-primary">Response</button>
-</form>
-          </td>
-      </tr>
-         <tr id="mydiv3" style="display:none">
-        <td><input type="text" class="form-control" placeholder="Enter Price"></td>
-        <td><input type="date" class="form-control" placeholder="Enter Date"></td>
-        <td><input type="submit" class="btn btn-primary"></td>
-        </tr>
-      <tr>
-       <td>Company Name1</td>
-        <td>Vijaynagar</td>
-        <td>26/11/2018</td>
-        <td>125</td>
-        <td>M 25</td>
-        <td>USer</td>
-          <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction4();">Response</button>-->
-            <form class="form-inline">
-    <div class="form-group">
-        <input type="text" class="form-control" id="inputEmail" placeholder="Enter Price">
-    </div>
-    <div class="form-group">
-        <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date">
-    </div>
-    <button type="submit" class="btn btn-primary">Response</button>
-</form>
-          </td>
-      </tr>
-         <tr id="mydiv4" style="display:none">
-        <td><input type="text" class="form-control" placeholder="Enter Price"></td>
-        <td><input type="date" class="form-control" placeholder="Enter Date"></td>
-        <td><input type="submit" class="btn btn-primary"></td>
-        </tr>
-    </tbody>
-  </table>
-  
-                    
-                    
-    </div>
-                
-                
-                <hr style="background:#e1e1e1;border:solid thin #e1e1e1;">
-                
-                 <p><strong>Quotation Submitted</strong><span class="badge btn-primary" style="background:#3276b1;margin-left:10px;"><%=aQuotes.length%></span></p>
-                    
                 
                 <div class="">
         <div class="panel panel-primary filterable">
@@ -944,127 +654,109 @@
                         <th><input type="text" class="form-control" placeholder="Generation Date" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Quantity" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Quality" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Required By" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Price" disabled></th>
                         <th><input type="text" class="form-control" placeholder="Valid Till" disabled></th>
-                        <th><input type="text" class="form-control" placeholder="Delete" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Purchase" disabled></th>
                     </tr>
                 </thead>
                 <tbody>
-                    
-       <%for( var i = 0; i < aQuotes.length ; i++){%>
-      <% var no=Number(aQuotes[i].generationDate);
-      var d= new Date(no);
-      var correctDate=(d.toUTCString()).slice(5,16);%>
-       <tr>
-        <td><%=aQuotes[i].requestedByCompany%></td>
-        <td><%=aQuotes[i].customerSite%></td>
-        <td id=gen_date><%=correctDate%></td>
-        <td>
-        <table>
-        <%for( var j = 0; j < aQuotes[i].quantity.length ; j++){%>
-        <tr>
-          <td>
-        <%=aQuotes[i].quantity[j]%>
-        <br><br>
-        </td>
-        </tr>
-        <%}%> 
-        </table>
-        </td>
-        <td>
-        <table>
-       <%for( var j = 0; j < aQuotes[i].quality.length ; j++){%>
-        <tr>
-          <td>
-        <%=aQuotes[i].quality[j]%>
-        <br><br>
-       </td>
-        </tr>
-         <%}%> 
-        </table>
-        </td>
-       <td><%=aQuotes[i].requestedBy%></td>
-        <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
-     
-      <table>
-      <tr>
-        <td>
-       <%=aQuotes[i].price%>
-      </td>
-      </tr>
-      </table>
-     
-      <td>
-       <%for( var j = 0; j < aQuotes[i].responses.length ; j++){ %>
-       <%if(aQuotes[i].responses[j].rmxId==aQuotes[i].id){%>
-        
-     <% var no=Number(aQuotes[i].responses[j].validTill);
-      var d= new Date(no);
-      var correctValidDate=(d.toUTCString()).slice(5,16);%>
-         <%=correctValidDate%>
-       <%}%>
-    
-      <%}%>
-     </td>
+                    <tr>
+                         <td>Company Name1</td>
+                        <td>Indore</td>
+                        <td>12/08/2018</td>
+                        <td>150</td>
+                        <td>M 25</td>
+                        <td>1500</td>
+                        <td>15/08/2018</td>
                         <td>
-                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
+                        <span><button class="btn btn-success btn-delete">Puchase</button></span>
                         </td>
-          
-    </td>
-      </tr>
-      <%}%>
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    </tr>
+                    <tr>
+                         <td>Company Name1</td>
+                        <td>Indore</td>
+                        <td>12/08/2018</td>
+                        <td>150</td>
+                        <td>M 25</td>
+                        <td>1500</td>
+                        <td>15/08/2018</td>
+                        <td>
+                        <span><button class="btn btn-success btn-delete">Puchase</button></span>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>Company Name1</td>
+                        <td>Indore</td>
+                        <td>12/08/2018</td>
+                        <td>150</td>
+                        <td>M 25</td>
+                        <td>1500</td>
+                        <td>15/08/2018</td>
+                        <td>
+                        <span><button class="btn btn-success btn-delete">Puchase</button></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+                
+                
+                <hr style="background:#e1e1e1;border:solid thin #e1e1e1;">
+                
+                 <p>Confirmed Purchase Orders <span class="badge btn-primary" style="background:#3276b1">8</span></p>
+                    
+                
+                <div class="">
+        <div class="panel panel-success filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Users</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter">
+<i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
+                       <th><input type="text" class="form-control" placeholder="Company Name" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Location" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Generation Date" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Quantity" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Quality" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Price" disabled></th>
+                        <th><input type="text" class="form-control" placeholder="Valid Till" disabled></th>
+                  
+                    </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td>Company Name1</td>
                         <td>Indore</td>
                         <td>12/08/2018</td>
                         <td>150</td>
                         <td>M 25</td>
-                        <td>User</td>
                         <td>1500</td>
                         <td>15/08/2018</td>
-                        <td>
-                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
-                        </td>
+                       
                     </tr>
                     <tr>
                         <td>Company Name2</td>
-                        <td>Ujjain</td>
+                        <td>Indore</td>
                         <td>12/08/2018</td>
                         <td>150</td>
                         <td>M 25</td>
-                        <td>User</td>
                         <td>1500</td>
                         <td>15/08/2018</td>
-                         <td>
-                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
-                        </td>
                     </tr>
                     <tr>
-                     <td>Company Name3</td>
-                        <td>Bhopals</td>
+                       <td>Company Name3</td>
+                        <td>Indore</td>
                         <td>12/08/2018</td>
                         <td>150</td>
                         <td>M 25</td>
-                        <td>User</td>
                         <td>1500</td>
                         <td>15/08/2018</td>
-                         <td>
-                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1084,13 +776,13 @@
     
    
     <script src='https://code.jquery.com/jquery-3.1.0.js'></script>
-    <script src="../js/bootstrap.js" type="text/javascript"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7/js/sb-admin-2.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.js'></script>
-    <script src="../js/morris-index.js" type="text/javascript"></script>
-   <script>
+    <script src="js/morris-index.js" type="text/javascript"></script>
+    <script>
     /*
 Please consider that the JS part isn't production ready at all, I just code it to show the concept of merging filters and titles together !
 */
@@ -1137,54 +829,6 @@ $(document).ready(function(){
     });
 });
     </script>
-    
-    <script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
-    <!--show hide js-->
-    <script>
-function myFunction() {
-    var x = document.getElementById("mydiv");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-        function myFunction2() {
-    var x = document.getElementById("mydiv2");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-        function myFunction3() {
-    var x = document.getElementById("mydiv3");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-        function myFunction4() {
-    var x = document.getElementById("mydiv4");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
-</script>
-
-    <!--end show hide js-->
    
     </body>
 </html>
