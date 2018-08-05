@@ -25,51 +25,195 @@ var Quote = require('../models/Quotations');
 var PO = require('../models/PurchaseOrder');
 */
 
-// var connection=mysql.createConnection({
-//       host:"localhost",
-//       user:"root",
-//       password:"abhi",
-//       database:"concrete"
-
-// });
-
 var connection=mysql.createConnection({
       host:"localhost",
       user:"root",
-      password:"root",
+      password:"abhi",
       database:"concrete"
 
 });
+
+// var connection=mysql.createConnection({
+//       host:"localhost",
+//       user:"root",
+//       password:"root",
+//       database:"concrete"
+
+// });
 
 
 //These are all the get requests
 
 /* GET home page. */
 router.get('/', isAuthenticated, function(req, res, next){
-	// Quote.getAllQuotesForSupplier(function(err, quotes){
-	// 	res.render('users', {
-	// 		quotes
-	// 	})
-	// })
+
 	var userId = res.locals.userId;
 	console.log("about to call the function");
-	//Quote.getAllQuotesForSupplier(function(err, quotes){
 		
+		//initialize all arrays
+		var quantityArray=[];
+		var qualityArray=[];
+		var result=[];
+        var responsesArray=[];
+         var idArray=[];
+         var priceArray=[];
+         var priceresponse=[];
+         var array=[];
       connection.connect(function(err){
-    //if(err) throw err;
     console.log("Connected from isAuthenticated");
-   connection.query("SELECT * FROM quotes INNER JOIN responses ON quotes.requestedById=responses.userId where quotes.requestedById='"+userId+"'",function(err,result,fields){
+  // connection.query("SELECT * FROM quotes INNER JOIN responses ON quotes.requestedById=responses.userId where quotes.requestedById='"+userId+"'",function(err,result,fields){
    //connection.query("SELECT * FROM responses where userId='"+userId+"'",function(err,result,fields){
-
-		console.log("quotes returnded");
-		console.log(result);
-		if(err){
+  connection.query("select * from quotes order by quoteId",function(err,result1,fields){
+  if(err){
 			return res.json({
 				success:false,
 				msg:"there was some error retrieving the quotes"
 			})
 		}
 	
+
+   for(var i=0;i<result1.length;i++){
+
+     quantityArray.push([]);
+     qualityArray.push([]);
+     responsesArray.push([]);
+     idArray.push([]);
+     array.push([]);
+     priceArray.push([]);
+     priceresponse.push([]);
+     
+    }
+
+      var sql="select quantity,quality,quoteId from multipledata order By quoteId ";
+      connection.query(sql,function(err,result3,fields){
+      //  console.log(result3);
+         if(err) throw err;
+             else{
+          
+            for(i=0;i<result1.length;i++)
+            {
+               
+             for( j=0;j<result3.length;j++){
+
+                 if(result3[j].quoteId==result1[i].quoteId){
+                 
+                     quantityArray[i].push(result3[j].quantity);
+                     qualityArray[i].push(result3[j].quality);
+                   }
+                              
+           }
+    }
+}
+//  console.log(qualityArray);
+// console.log(quantityArray);
+
+         //from index.js we have to make a result and then pass in for each loop
+      //var sql="select * from responses where rmxId='"+userId+"'";
+      // for(i=0;i<result1.length;i++){
+      //  var sql= sql+result1[i].quoteId+",";
+      //    }
+      //    sql=sql.slice(0,-1);
+      //    sql=sql+")";
+         // console.log(sql);
+        var sql="select * from responses";
+       connection.query(sql,function(err,results,fields){
+       // console.log(results);
+         if(err) throw err;
+             else{
+            for(i=0;i<result1.length;i++)
+            {
+               
+             for(var j=0;j<results.length;j++){
+
+                 if(results[j].quoteId==result1[i].quoteId){
+                 
+                   
+                     array[i].push(results[j]);
+                   }
+                 else {    
+                  array.push([]);  
+                }
+                            
+                         }
+                        }                
+
+if(results.length>0){
+
+ //      var sql="select * from responses where rmxId='"+userId+"' && quoteId IN ( ";
+        var sql="select * from responses where quoteId IN ( ";
+      for(i=0;i<result1.length;i++){
+       var sql= sql+result1[i].quoteId+",";
+         }
+         sql=sql.slice(0,-1);
+         sql=sql+") GROUP BY quoteId";
+         console.log(sql);
+     
+       connection.query(sql,function(err,result14,fields){
+       // console.log(result14);
+
+                   
+
+
+var sql="select price,id,quoteId from pricetable where id IN (";
+    for(i=0;i<results.length;i++){
+
+       var sql= sql+results[i].id+",";
+         }       
+         sql=sql.slice(0,-1);
+         sql=sql+") order by id"; 
+         console.log(sql);
+      connection.query(sql,function(err,result13,fields){
+         if(err) throw err;
+         else{
+
+               // console.log(result13);
+                for(var j=0;j<result13.length;j++){
+                 for(var i=0;i<result14.length;i++){
+
+                      if(result14[i].quoteId==result13[j].quoteId){
+                          priceArray[i].push(result13[j].price);
+                           idArray[i].push(result13[j].id);
+                      }
+                
+                    }
+                   }
+                }                    
+               console.log(priceArray);
+               console.log(idArray);
+
+// for(var i=0;i<priceArray.length;i++){
+// priceresponse[i]={
+
+// "prices":priceArray[i],
+// "id":idArray[i]
+//   }
+// }
+// console.log(priceresponse[0]);
+
+  
+
+           for(i=0;i<result1.length;i++){
+           result[i]={
+                   "quantity":  quantityArray[i],
+                   "quality":   qualityArray[i],
+                   "customerSite": result1[i].customerSite,
+                   "generationDate": result1[i].generationDate,
+                   "requiredDate": result1[i].requiredDate,
+                   "requestedBy": result1[i].requestedBy,
+                   "requestedByCompany": result1[i].requestedByCompany,
+                   "requestedById": result1[i].requestedById,
+                   "quoteId": result1[i].quoteId,
+                    "price":priceArray[i],
+                   "responses": array[i],
+                   "id":userId
+                 }
+  
+             } 
+         
+
+        console.log("quotes returnded");
+		//console.log(result);
+
 		
 		var aQuotes = [];//contain quotes that rmx supplier has already responded to
 		var uQuotes = [];//contain quotes that rmx supplier can respond to
@@ -77,49 +221,61 @@ router.get('/', isAuthenticated, function(req, res, next){
 	       result.forEach((quote) => {
 			//console.log("repeating for : " + quote);
 			var flag = true;
-			var rmxResponse = false;
-			//quote.forEach((response) => {
-				//console.log(response.rmxId);
-				if(quote.rmxId == userId){
+			//var rmxResponse = false;
+			quote.responses.forEach((response) => {
+				
+				console.log(response.rmxId);
+				
+				if(response.rmxId == userId){
 					flag = false;
-					rmxResponse = ({ rmxId: quote.rmxId,
-						              price: quote.price,
-						              validTill: quote.validTill
-				                          	});
+					// quote.price.forEach((prices) =>{
+					// rmxResponse = ({ rmxId: response.rmxId,
+					// 	              price: prices.price,
+					// 	              validTill: response.validTill
+				 //                          	});
+					// })
 					console.log(quote)
 				}
-			//})
+			})
 			if(flag){
 				//quote.responses = undefined;
-                    quote.rmxId = undefined;
-                      quote.price = undefined;
-                       quote.validTill = undefined;
+                    // quote.responses.rmxId = undefined;
+                    //   quote.price = [];
+                    //    quote.responses.validTill = undefined;
 				uQuotes.push(quote);
 			}else{
 				//quote.responses = undefined;
-				       quote.rmxId = undefined;
-                       quote.price = undefined;
-                       quote.validTill = undefined;
-				//quote.responses = rmxResponse;
-				       quote.rmxId = response.rmxId;
-                       quote.price = response.price;
-                       quote.validTill = response.validTill;
+				//         quote.responses.rmxId = undefined;
+    //                   quote.price = [];
+    //                    quote.responses.validTill = undefined;
+				// //quote.responses = rmxResponse;
+				//        quote.responses.rmxId = response.rmxId;
+    //                    quote.price = response.price;
+    //                    quote.responses.validTill = response.validTill;
 
 
 				aQuotes.push(quote);
 			}
 			})
+
 	
 		console.log("about to send response");
-		res.json({
-			success:true,
-			aQuotes : aQuotes,
-			uQuotes : uQuotes
-		})
+		res.render('index-tables',{sucess:true,aQuotes:aQuotes,uQuotes:uQuotes});
+		// res.json({
+		// 	success:true,
+		// 	aQuotes : aQuotes,
+		// 	uQuotes : uQuotes
+		// })
 	})
    	})
 
+}
+}
 })
+})
+});
+});
+});
 //});
 
 
@@ -723,13 +879,8 @@ console.log(qualityArray);
                    "requestedById": result1[i].requestedById,
                    "quoteId":result1[i].quoteId
                  }
-  
-            // console.log(new Date(Number(result1[i].generationDate)).toUTCString());
 }
 
-
-
-		//res.send(result);
 		res.render("index-tables.ejs", {result:result});
 	});
 })
@@ -744,20 +895,16 @@ router.post('/respondtoquote', function(req, res){
 	//jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
-		return	res.render('/index-tables', {success:false,msg:"some error occured"})
-			// res.json({
-			// 	success:false,
-			// 	msg:"some error occured"
-			// })
-			// return;
+		return	res.render('index-tables', {success:false,msg:"some error occured"});
 		}
 		var userId =  decoded.id;
 	    
-
+       if(Array.isArray(req.body.price)){
 	    var price=[];
+      	}
 		var rmxId = userId;
 		var price = req.body.price;
-		var validTill = req.body.validTill;
+		var validTill = new Date(req.body.validTill).getMilliseconds();
 		var quoteId = req.body.quoteId;
 		var requestedById=req.body.requestedById;
         
@@ -773,26 +920,82 @@ router.post('/respondtoquote', function(req, res){
 		}
 		console.log(response);
 	//	Quote.respondToQuote(quoteId, response, function(err, quote){
-			
-     connection.connect(function(err){
+    connection.connect(function(err){
     console.log("Connected from respond to quotes");
-    connection.query(" update responses set rmxId='"+response.rmxId+"', validTill='"+response.validTill+"',userId='"+requestedById+"' where quoteId='"+quoteId+"'",function(err,result,fields){
-			if(err){
-				res.json({
-					success:false,
-					msg:"some error occured"
-				})
-				return;
-			};
+    
+   connection.query("select * from pricetable where quoteId='"+quoteId+"' order By id",function(err,result,fields){
+   if(err) throw err;
+
+     connection.query("select * from responses where quoteId='"+quoteId+"' order By id",function(err,result1,fields){
+			if(err) throw err;
+			if(result1[0].rmxId==null){
+			var sql="update responses set rmxId='"+response.rmxId+"', validTill='"+response.validTill+"',userId='"+requestedById+"' where quoteId='"+quoteId+"'";
+				  connection.query(sql,function(err,result2,fields){
+			      if(err) throw err;
+		       });
+				   console.log(result[0].priceId);
+
+				  
+                   if(Array.isArray(req.body.price)){
+				  for(var i=0;i<response.price.length;i++){
+				  	 console.log(result[i].priceId);
+		     var sql="update pricetable set price='"+response.price[i]+"' where quoteId='"+quoteId+"' && id='"+result1[0].id+"' && priceId='"+result[i].priceId+"'";
+				  connection.query(sql,function(err,result3,fields){
+			      if(err) throw err;
+		     });	
+             }
+			}
+			else{
+                  var sql="update pricetable set price='"+response.price+"' where quoteId='"+quoteId+"' && id='"+result1[0].id+"' && priceId='"+result[0].priceId+"'";
+				  connection.query(sql,function(err,result6,fields){
+			      if(err) throw err;
+		     });	
+
+			}
+
+		}
+			else{
+                 var sql="insert into responses (rmxId,validTill,quoteId,userId) values ('"+response.rmxId+"','"+response.validTill+"','"+quoteId+"','"+requestedById+"')";
+				  connection.query(sql,function(err,result4,fields){
+			      if(err) throw err;
+		       
+		          if(Array.isArray(req.body.price)){
+		       for(var i=0;i<response.price.length;i++){
+			   var sql="insert into pricetable (price,id,quoteId) values ('"+response.price[i]+"','"+result4.insertId+"','"+quoteId+"')";
+				  connection.query(sql,function(err,result5,fields){
+			      if(err) throw err;
+                   });
+				}
+			}
+			else{
+				var sql="insert into pricetable (price,id,quoteId) values ('"+response.price+"','"+result4.insertId+"','"+quoteId+"')";
+				  connection.query(sql,function(err,result7,fields){
+			      if(err) throw err;
+                   });
+			}
+		       });
+              }
+
+    // var sql="insert into responses (rmxId,validTill,quoteId,userId) values ('"+response.rmxId+"','"+response.validTill+"','"+quoteId+"','"+requestedById+"') on duplicate quoteId update responses set rmxId='"+response.rmxId+"', validTill='"+response.validTill+"',userId='"+requestedById+"' where quoteId='"+quoteId+"'";
+    // connection.query(sql,function(err,result,fields){
+			// if(err){
+			// 	res.json({
+			// 		success:false,
+			// 		msg:"some error occured"
+			// 	})
+			// 	return;
+			// };
 			//console.log(quote);
-			res.json({
-				success:true,
-				msg: 'respond to quote submitted' + result
-			})
+			return res.render('index-tables',{success:true,msg:'respond to quote submitted',result:null});
+			// res.json({
+			// 	success:true,
+			// 	msg: 'respond to quote submitted' + result
+			// })
 		})
 	})
 })
 
+});
 });
 //this api will remove a quote response that a supplier submitted earlier
 router.post('/removequote', function(req, res){
@@ -1287,8 +1490,10 @@ router.post('/completeorder', function(req, res){
 // })
 
 function isAuthenticated(req, res, next){
-    if(req.headers['authorization']){
-        jwt.verify(req.headers['authorization'], secret, function(err, decoded){
+    //if(req.headers['authorization']){
+      if(req.session.token){
+        console.log(req.session.token);
+		jwt.verify(req.session.token, secret, function(err, decoded){
             if(err){
                 console.log(err);
                 return handleError(err, null, res);

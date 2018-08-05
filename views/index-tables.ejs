@@ -766,7 +766,7 @@
         <section class="main-content-custom">
           <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="background:#fff;border:solid thin #e1e1e1">
              <h3 style="border-bottom:solid thin #e1e1e1;padding-bottom:10px;">Tables</h3>
-              <p><strong>Request For Quotation</strong> <span class="badge" style="background:#f0ad4e;margin-left:10px;"><%=result.length%></span></p>
+              <p><strong>Request For Quotation</strong> <span class="badge" style="background:#f0ad4e;margin-left:10px;"><%=uQuotes.length%></span></p>
             
                     <div class="">
                     
@@ -785,20 +785,20 @@
       </tr>
     </thead>
     <tbody id="myTable">
-      <%for( var i = 0; i < result.length ; i++){%>
-      <% var no=Number(result[i].generationDate);
+      <%for( var i = 0; i < uQuotes.length ; i++){%>
+      <% var no=Number(uQuotes[i].generationDate);
       var d= new Date(no);
       var correctDate=(d.toUTCString()).slice(5,16);%>
       <tr>
-        <td><%=result[i].requestedByCompany%></td>
-        <td><%=result[i].customerSite%></td>
+        <td><%=uQuotes[i].requestedByCompany%></td>
+        <td><%=uQuotes[i].customerSite%></td>
         <td id=gen_date><%=correctDate%></td>
         <td>
         <table>
-        <%for( var j = 0; j < result[i].quantity.length ; j++){%>
+        <%for( var j = 0; j < uQuotes[i].quantity.length ; j++){%>
         <tr>
           <td>
-        <%=result[i].quantity[j]%>
+        <%=uQuotes[i].quantity[j]%>
         <br><br>
         </td>
         </tr>
@@ -807,21 +807,21 @@
         </td>
         <td>
         <table>
-       <%for( var j = 0; j < result[i].quality.length ; j++){%>
+       <%for( var j = 0; j < uQuotes[i].quality.length ; j++){%>
         <tr>
           <td>
-        <%=result[i].quality[j]%>
+        <%=uQuotes[i].quality[j]%>
         <br><br>
        </td>
         </tr>
          <%}%> 
         </table>
         </td>
-       <td><%=result[i].requestedBy%></td>
+       <td><%=uQuotes[i].requestedBy%></td>
         <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
           <form class="form-inline" action="../users/respondtoquote" method="POST">
     <div class="form-group">
-      <%for( var j = 0; j < result[i].quality.length ; j++){%>
+      <%for( var j = 0; j < uQuotes[i].quality.length ; j++){%>
       <table>
       <tr>
         <td>
@@ -834,8 +834,8 @@
     <div class="form-group">
         <input type="date" class="form-control" id="inputPassword" placeholder="Enter Date" name="validTill">
     </div>
-    <input type="text" name="quoteId" value="<%=result[i].quoteId%>" style="display:none">
-    <input type="text" name="requestedById" value="<%=result[i].requestedById%>" style="display:none">
+    <input type="text" name="quoteId" value="<%=uQuotes[i].quoteId%>" style="display:none">
+    <input type="text" name="requestedById" value="<%=uQuotes[i].requestedById%>" style="display:none">
     <button type="submit" class="btn btn-primary">Response</button>
 </form>
           
@@ -929,7 +929,7 @@
                 
                 <hr style="background:#e1e1e1;border:solid thin #e1e1e1;">
                 
-                 <p><strong>Quotation Submitted</strong><span class="badge btn-primary" style="background:#3276b1;margin-left:10px;">8</span></p>
+                 <p><strong>Quotation Submitted</strong><span class="badge btn-primary" style="background:#3276b1;margin-left:10px;"><%=aQuotes.length%></span></p>
                     
                 
                 <div class="">
@@ -956,6 +956,82 @@
                     </tr>
                 </thead>
                 <tbody>
+                    
+       <%for( var i = 0; i < aQuotes.length ; i++){%>
+      <% var no=Number(aQuotes[i].generationDate);
+      var d= new Date(no);
+      var correctDate=(d.toUTCString()).slice(5,16);%>
+       <tr>
+        <td><%=aQuotes[i].requestedByCompany%></td>
+        <td><%=aQuotes[i].customerSite%></td>
+        <td id=gen_date><%=correctDate%></td>
+        <td>
+        <table>
+        <%for( var j = 0; j < aQuotes[i].quantity.length ; j++){%>
+        <tr>
+          <td>
+        <%=aQuotes[i].quantity[j]%>
+        <br><br>
+        </td>
+        </tr>
+        <%}%> 
+        </table>
+        </td>
+        <td>
+        <table>
+       <%for( var j = 0; j < aQuotes[i].quality.length ; j++){%>
+        <tr>
+          <td>
+        <%=aQuotes[i].quality[j]%>
+        <br><br>
+       </td>
+        </tr>
+         <%}%> 
+        </table>
+        </td>
+       <td><%=aQuotes[i].requestedBy%></td>
+        <td><!--<button class="btn btn-info btn-response" type="button" onclick="myFunction();">Response</button>-->
+     
+      <table>
+      <tr>
+        <td>
+       <%=aQuotes[i].price%>
+      </td>
+      </tr>
+      </table>
+     
+      <td>
+       <%for( var j = 0; j < aQuotes[i].responses.length ; j++){ %>
+       <%if(aQuotes[i].responses[j].rmxId==aQuotes[i].id){%>
+        
+     <% var no=Number(aQuotes[i].responses[j].validTill);
+      var d= new Date(no);
+      var correctValidDate=(d.toUTCString()).slice(5,16);%>
+         <%=correctValidDate%>
+       <%}%>
+    
+      <%}%>
+     </td>
+                        <td>
+                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
+                        </td>
+          
+    </td>
+      </tr>
+      <%}%>
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <tr>
                         <td>Company Name1</td>
                         <td>Indore</td>
