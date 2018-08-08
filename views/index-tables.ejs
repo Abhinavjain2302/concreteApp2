@@ -1018,7 +1018,24 @@
       <%}%>
      </td>
                         <td>
-                        <span><button class="btn btn-danger btn-delete"><i class="fa fa-times" aria-hidden="true"></i></button></span>
+                        <form method="POST" action="../users/removequote">
+                         <input type="text" name="quoteId" value="<%=aQuotes[i].quoteId%> "style="display:none">
+                        <input type="text" name="responseId" 
+                        value="  
+                        <%for(var k=0;k<aQuotes[i].responses.length;k++){%>
+                      <%if(aQuotes[i].responses[k].rmxId==aQuotes[i].id){%>
+                      <%for(var j=0;j<aQuotes[i].price.id.length;j++){%>
+                     <%if(aQuotes[i].price.id[j]==aQuotes[i].responses[k].id){%>
+                      <%=aQuotes[i].responses[k].id%>
+                      <% break; %>
+                     <%}%>
+                       <%}%>
+                       <%}%> 
+                      <%}%>  
+                     "style="display:none">
+                        <span><button class="btn btn-danger btn-delete" type="submit"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        </span>
+                        </form>
                         </td>
           
     </td>

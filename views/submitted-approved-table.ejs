@@ -659,6 +659,50 @@
                     </tr>
                 </thead>
                 <tbody>
+                   
+                      <%for(var i=0;i<result.length;i++){%>
+                    <% var no=Number(result[i].generationDate);%>
+                    <%var d= new Date(no);%>
+                    <%var generationDate=(d.toUTCString()).slice(5,16);%>
+
+                    <% var no=Number(result[i].requiredByDate);%>
+                    <%var d= new Date(no);%>
+                    <%var requiredByDate=(d.toUTCString()).slice(5,16);%>
+                    
+                    <% var no=Number(result[i].statusDate);%>
+                    <%var d= new Date(no);%>
+                    <%var statusDate=(d.toUTCString()).slice(5,16);%>
+                    <tr>
+                      <td><%=result[i].requestedBy%></td>
+                      <td>
+                      <table>
+                      <%for(var j=0;j<result[i].quality.length;j++){%>
+                       <%if(result[i].orderIdArray[j][0]==result[i].orderId){%>
+                      <tr>
+                    <td><%=result[i].quality[j]%> &nbsp; | &nbsp;  <%=result[i].quantity[j]%></td>
+                       </tr>
+                      <%}%>
+                      <%}%>
+                      </table>
+                      </td>
+                      <td><%=generationDate%></td>
+                      <td><%=requiredByDate%></td>
+                      <td><%=result[i].status%></td>
+                      <td><%=statusDate%></td>
+                    </tr>
+                     <%}%>
+
+
+
+
+
+
+
+
+
+
+
+
                     <tr>
                          <td>Company Name1</td>
                         <td>Indore</td>
@@ -764,12 +808,12 @@
     
    
     <script src='https://code.jquery.com/jquery-3.1.0.js'></script>
-    <script src="js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.js" type="text/javascript"></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7/js/sb-admin-2.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.1/raphael.js'></script>
-    <script src="js/morris-index.js" type="text/javascript"></script>
+    <script src="../js/morris-index.js" type="text/javascript"></script>
     <script>
     /*
 Please consider that the JS part isn't production ready at all, I just code it to show the concept of merging filters and titles together !

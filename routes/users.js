@@ -180,8 +180,8 @@ var sql="select price,id,quoteId from pricetable where id IN (";
                     }
                    }
                 }                    
-               console.log(priceArray);
-               console.log(idArray);
+               //console.log(priceArray);
+               //console.log(idArray);
 
 for(var i=0;i<priceArray.length;i++){
 priceresponse[i]={
@@ -214,7 +214,7 @@ console.log(priceresponse[0]);
          
 
         console.log("quotes returnded");
-		//console.log(result);
+		console.log(result);
 
 		
 		var aQuotes = [];//contain quotes that rmx supplier has already responded to
@@ -236,7 +236,7 @@ console.log(priceresponse[0]);
 					// 	              validTill: response.validTill
 				 //                          	});
 					// })
-					console.log(quote)
+					//console.log(quote)
 				}
 			})
 			if(flag){
@@ -653,8 +653,13 @@ router.post('/changepass', function(req, res){
 
 //this route returns all the order(cancelled as well as successful)
 router.get('/history', function(req, res){
-
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+   var array=[];
+   var quantityArray=[];
+   var qualityArray=[];
+   var orderIdArray=[];
+   console.log(req.session.token);
+    jwt.verify(req.session.token, secret, function(err, decoded){
+	//jwt.verify(req.headers.authorization, secret, function(err, decoded){
 		if(err){
 			console.log(req.headers.authorization)
 			console.log("%%%%%%%%%%%%%%%%%%%" + err);
@@ -675,11 +680,68 @@ router.get('/history', function(req, res){
    var sql="select * from orders where supplierId='"+userId+"' && generationDate <'"+y.getTime()+"'  ";
    connection.query(sql,function(err,result){
 console.log(result);
-			res.json({
-				success:true,
-			   result:result[0]
-			})
+
+ for(var i=0;i<result.length;i++)
+          {
+            qualityArray.push([]);
+            quantityArray.push([]);
+            orderIdArray.push([]);
+        }
+
+ var sql="select * from ordermultiple where orderId IN (";
+ for(i=0;i<result.length;i++){
+
+       var sql= sql+result[i].orderId+",";
+         }       
+         sql=sql.slice(0,-1);
+         sql=sql+")"; 
+         console.log(sql);
+        connection.query(sql,function(err,results){
+			console.log(results);
+			// res.json({
+			// 	success:true,
+			//    result:result[0]
+			// })
+
+         
+
+        for(var i=0;i<result.length;i++)
+            {
+               
+             for(var j=0;j<results.length;j++){
+
+                 if(results[j].orderId==result[i].orderId){
+                 
+                     quantityArray[i].push(results[j].quantity);
+                     qualityArray[i].push(results[j].quality);
+                     orderIdArray[i].push(results[j].orderId);
+                   }
+                              
+           }
+          }
+          console.log(qualityArray);
+          console.log(quantityArray);
+          console.log(orderIdArray);
+
+
+			for(var i=0;i<result.length;i++){
+            array[i]={
+                        "requestedBy":result[i].requestedBy,
+                        "generationDate":result[i].generationDate,
+                        "requiredByDate":result[i].requiredByDate,
+                        "status":result[i].status,
+                        "statusDate":result[i].statusDate,
+                        "quality":qualityArray[i],
+                        "quantity":quantityArray[i],
+                        "orderIdArray":orderIdArray[i]
+
+            }
+            console.log(array[i]);
+       }
+
+			res.render('history',{result:array});
 		})
+	})
 	})
 })
 
@@ -1009,30 +1071,78 @@ router.post('/respondtoquote', function(req, res,next){
 //this api will remove a quote response that a supplier submitted earlier
 router.post('/removequote', function(req, res){
 	var quoteId = req.body.quoteId;
-	//var responseId = req.body.responseId;
+	var responseId = parseInt(req.body.responseId);
+
 	//Quote.deleteResponse(quoteId, responseId, function(err, quote){
 	//	no need for responseId
+      
+       console.log(quoteId);
+       console.log(responseId);
         connection.connect(function(err){
     console.log("Connected form respond to quotes");
-    connection.query(" delete from responses where quoteId='"+quoteId+"'",function(err,result,fields){
+    var sql="select * from responses where quoteId='"+quoteId+"'";
+    connection.query(sql,function(err,result1,fields){
+     if(err) throw err;
+     else{
+     	console.log(result1);
+     	console.log(result1.length);
+       if(result1.length==1)
+       {
+      
+	      var sql=" update pricetable set price=NULL where quoteId='"+quoteId+"' && id='"+responseId+"'";
+	      connection.query(sql,function(err,result2,fields){
+	      if(err) throw err;
+	      else{
+	      
+	      var sql=" update responses set rmxId=NULL,validTill=NULL where quoteId='"+quoteId+"' && id='"+responseId+"'";
+	      connection.query(sql,function(err,result3,fields){
+	       if(err) throw err;
+       
+                });
+              }
+           });
 
-		if(err){
-			console.log(err);
-			res.json({
-				success:false
-			})
-		};
+
+     	}
+     	else{
+         
+                var sql=" delete from pricetable where quoteId='"+quoteId+"' && id='"+responseId+"'";
+	      connection.query(sql,function(err,result2,fields){
+	      if(err) throw err;
+	      else{
+	      
+	    var sql="delete from responses where quoteId='"+quoteId+"' && id='"+responseId+"'";
+	      connection.query(sql,function(err,result3,fields){
+	       if(err) throw err;
+       
+                });
+              }
+           });
+
+
+     	}
+  }
 		//console.log(quote);
-		res.json({
-			success:true
-		})
+		// res.json({
+		// 	success:true
+		// })
+	    res.redirect('/users/');
 	})
+
 })
 });
 
 //this api will show PO requests in response to the quotes the supplier sent out , waiting to be confirmed
 router.get('/pendingpo', function(req, res){
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+    var array=[];
+   var quantityArray=[];
+   var qualityArray=[];
+   var POIdArray=[];
+   var priceArray=[];
+
+
+	console.log(req.session.token);
+	jwt.verify(req.session.token, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
@@ -1049,20 +1159,83 @@ router.get('/pendingpo', function(req, res){
     console.log("Connected from pendingpo");
     connection.query(" select * from purchaseorder where supplierId='"+userId+"'",function(err,result,fields){
 
-			res.json({
-				success:true,
-				resuts:result[0]
-			})
+    for(var i=0;i<result.length;i++)
+          {
+            qualityArray.push([]);
+            quantityArray.push([]);
+            POIdArray.push([]);
+            priceArray.push([]);
+        }
+
+
+  var sql="select * from pomultiple where POId IN (";
+ for(i=0;i<result.length;i++){
+
+       var sql= sql+result[i].POId+",";
+         }       
+         sql=sql.slice(0,-1);
+         sql=sql+")"; 
+         console.log(sql);
+        connection.query(sql,function(err,results){
+			console.log(results);
+
+
+             for(var i=0;i<result.length;i++)
+            {
+               
+             for(var j=0;j<results.length;j++){
+
+                 if(results[j].POId==result[i].POId){
+                 
+                     quantityArray[i].push(results[j].Quantity);
+                     qualityArray[i].push(results[j].Quality);
+                     POIdArray[i].push(results[j].POId);
+                     priceArray[i].push(results[j].price);
+                   }
+                              
+           }
+          }
+          console.log(qualityArray);
+          console.log(quantityArray);
+          console.log(POIdArray);
+          console.log(priceArray);
+
+
+			for(var i=0;i<result.length;i++){
+            array[i]={
+                        "requestedByCompany":result[i].requestedByCompany,
+                        "generationDate":result[i].generationDate,
+                        "customerSite":result[i].customerSite,
+                        "validTill":result[i].validTill,
+                        "confirmedBySupplier":result[i].confirmedBySupplier,
+                        "quality":qualityArray[i],
+                        "quantity":quantityArray[i],
+                        "POIdArray":POIdArray[i],
+                        "price":priceArray[i],
+                        "POId":result[i].POId
+
+            }
+            console.log(array[i]);
+       }
+     
+
+
+			// res.json({
+			// 	success:true,
+			// 	resuts:result[0]
+			// })
+	res.render('order-tables',{result:array});
 		})
 	})
+});
 });
 });
 
 
 //this api will confirm the PO accepted by supplier
 router.post('/confirmpendingpo', function(req, res){
-	
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+	console.log(req.session.token);
+	jwt.verify(req.session.token, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
@@ -1074,6 +1247,7 @@ router.post('/confirmpendingpo', function(req, res){
 		var userId =  decoded.id;
 	
 		var id = req.body.POId;
+		console.log(id);
 
 		//PO.confirmPOBySupplier(id, function(err, po){
 			
@@ -1088,9 +1262,10 @@ router.post('/confirmpendingpo', function(req, res){
 				})
 				return;
 			};
-			res.json({
-				success:true
-			})
+			// res.json({
+			// 	success:true
+			// })
+             res.redirect('/users/pendingpo');
 		})
 	})
 });
@@ -1098,7 +1273,13 @@ router.post('/confirmpendingpo', function(req, res){
 
 //this api will show all the orders that are pending confirmation from seller
 router.get('/pendingorders', function(req, res){
-	jwt.verify(req.headers.authorization, secret, function(err, decoded){
+   var array=[];
+   var quantityArray=[];
+   var qualityArray=[];
+   var orderIdArray=[];
+
+	console.log(req.session.token);
+	jwt.verify(req.session.token, secret, function(err, decoded){
 		if(err){
 			//console.log("%%%%%%%%%%%%%%%%%%%" + err);
 			res.json({
@@ -1109,28 +1290,83 @@ router.get('/pendingorders', function(req, res){
 		}
 		var userId =  decoded.id;
 		let d = new Date();
+		console.log(d);
 		var y = new Date(d.getTime()-(d.getHours() * 60*60*1000 + d.getMinutes()*60*1000 + d.getSeconds()*1000))
 		console.log(y);
 		//Order.getOrdersForResponseBySupplierId(userId, y.getTime(), function(err, orders){
 		
    connection.connect(function(err){
-   //if(err) throw err;
-   var sql="select * from orders where supplierId='"+userId+"' && generationDate >'"+y.getTime()+"' ";
+   var sql="select * from orders where supplierId='"+userId+"' && generationDate <'"+y.getTime()+"' ";
    connection.query(sql,function(err,result){
+   console.log(sql);
+   console.log(result);
+			
+          for(var i=0;i<result.length;i++)
+          {
+            qualityArray.push([]);
+            quantityArray.push([]);
+            orderIdArray.push([]);
+        }
 
-			if(err){
-				res.json({
-					success:false,
-					msg:"some error occured"
-				})
-				return;
-			};
-			res.json({
-				success:true,
-				results:result
-			});
+ var sql="select * from ordermultiple where orderId IN (";
+ for(i=0;i<result.length;i++){
+
+       var sql= sql+result[i].orderId+",";
+         }       
+         sql=sql.slice(0,-1);
+         sql=sql+")"; 
+         console.log(sql);
+        connection.query(sql,function(err,results){
+			console.log(results);
+			// res.json({
+			// 	success:true,
+			//    result:result[0]
+			// })
+
+         
+
+        for(var i=0;i<result.length;i++)
+            {
+               
+             for(var j=0;j<results.length;j++){
+
+                 if(results[j].orderId==result[i].orderId){
+                 
+                     quantityArray[i].push(results[j].quantity);
+                     qualityArray[i].push(results[j].quality);
+                     orderIdArray[i].push(results[j].orderId);
+                   }
+                              
+           }
+          }
+          console.log(qualityArray);
+          console.log(quantityArray);
+          console.log(orderIdArray);
+
+
+			for(var i=0;i<result.length;i++){
+            array[i]={
+                        "requestedBy":result[i].requestedBy,
+                        "generationDate":result[i].generationDate,
+                        "requiredByDate":result[i].requiredByDate,
+                        "status":result[i].status,
+                        "statusDate":result[i].statusDate,
+                        "quality":qualityArray[i],
+                        "quantity":quantityArray[i],
+                        "orderIdArray":orderIdArray[i]
+
+            }
+            console.log(array[i]);
+       }
+
+			// res.json({
+			// 	success:true,
+			// 	results:result
+			// });
+			res.render('submitted-approved-table',{result:array});
 		});
 	});
+});
 });
 });
 
