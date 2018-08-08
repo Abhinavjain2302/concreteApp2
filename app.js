@@ -83,6 +83,9 @@ app.get('/users/index', function(req, res){
   res.render('index.ejs');
 })
 
+app.get('/users/cancel-order-tables', function(req, res){
+  res.render('cancel-order-tables.ejs');
+})
 
 app.use('/index.html', function(req, res){
   res.sendFile(path.join(__dirname, 'views/index.html'));
